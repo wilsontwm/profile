@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import React, { Fragment, useState, useRef } from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import moment, { Moment } from 'moment';
@@ -21,24 +21,53 @@ const colors = [
 ];
 
 const App = () => {
+  const experienceRef = useRef<HTMLDivElement>(null);
+  const skillRef = useRef<HTMLDivElement>(null);
+  const projectRef = useRef<HTMLDivElement>(null);
+
+  const onClick = (key: string) => {
+    switch (key) {
+      case '#experience':
+        experienceRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
+      case '#skills':
+        skillRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
+      case '#projects':
+        projectRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
+    }
+  };
+
   return (
     <>
-      <HeaderSection />
-      <ExperienceSection />
+      <HeaderSection onClick={onClick} />
+      <ExperienceSection reference={experienceRef} />
+      <SkillSection reference={skillRef} />
+      <ProjectSection reference={projectRef} />
     </>
   );
 };
 
-const HeaderSection = () => {
+const HeaderSection = ({ onClick }: { onClick: (key: string) => void }) => {
   const start = moment('07-01-2016', 'MM-DD-YYYY');
   const now = moment();
   const numberOfYears = now.diff(start, 'year');
 
   const navigation = [
-    { name: 'Experience', href: '#' },
-    { name: 'Skills', href: '#' },
-    { name: 'Projects', href: '#' },
-    { name: 'Contact', href: '#' },
+    { name: 'Experience', href: '#experience' },
+    { name: 'Skills', href: '#skills' },
+    { name: 'Projects', href: '#projects' },
+    { name: 'Contact', href: '#contact' },
   ];
 
   return (
@@ -135,6 +164,7 @@ const HeaderSection = () => {
                       key={item.name}
                       href={item.href}
                       className="font-medium text-gray-500 hover:text-gray-900"
+                      onClick={() => onClick(item.href)}
                     >
                       {item.name}
                     </a>
@@ -172,6 +202,7 @@ const HeaderSection = () => {
                         key={item.name}
                         href={item.href}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                        onClick={() => onClick(item.href)}
                       >
                         {item.name}
                       </a>
@@ -232,7 +263,11 @@ interface Experience {
   tools?: string[];
 }
 
-const ExperienceSection = () => {
+const ExperienceSection = ({
+  reference,
+}: {
+  reference: React.LegacyRef<HTMLDivElement>;
+}) => {
   const [selectedExperienceIndex, setSelectedExperienceIndex] = useState(0);
   const experiences: Experience[] = [
     {
@@ -242,7 +277,7 @@ const ExperienceSection = () => {
       startDate: moment('05-15-2022', 'MM-DD-YYYY'),
       achievements: (
         <>
-          <ul className="list-disc">
+          <ul className="list-disc list-inside text-xs md:text-base">
             <li className="my-2">
               Led and built different vertical products within Xendit with 30%
               month-on-month growth on total processing value TPV
@@ -252,7 +287,7 @@ const ExperienceSection = () => {
       ),
       scopes: (
         <>
-          <ul className="list-disc">
+          <ul className="list-disc list-inside text-xs md:text-base">
             <li className="my-2">
               Designed, developed, debugged and tested web applications
               (frontend & backend)
@@ -288,7 +323,7 @@ const ExperienceSection = () => {
       endDate: moment('05-15-2022', 'MM-DD-YYYY'),
       achievements: (
         <>
-          <ul className="list-disc">
+          <ul className="list-disc list-inside text-xs md:text-base">
             <li className="my-2">
               Increased the active users and merchant base of{' '}
               <a
@@ -312,7 +347,7 @@ const ExperienceSection = () => {
       ),
       scopes: (
         <>
-          <ul className="list-disc">
+          <ul className="list-disc list-inside text-xs md:text-base">
             <li className="my-2">
               Designed, developed, debugged and tested web applications
               (frontend & backend)
@@ -353,7 +388,7 @@ const ExperienceSection = () => {
       endDate: moment('07-30-2020', 'MM-DD-YYYY'),
       scopes: (
         <>
-          <ul className="list-disc">
+          <ul className="list-disc list-inside text-xs md:text-base">
             <li className="my-2">
               Designed, developed and debugged the online gaming platform using
               Yii framework based on the requirements from the Business Analyst
@@ -371,7 +406,7 @@ const ExperienceSection = () => {
       endDate: moment('06-30-2019', 'MM-DD-YYYY'),
       achievements: (
         <>
-          <ul className="list-disc">
+          <ul className="list-disc list-inside text-xs md:text-base">
             <li className="my-2">
               Built the web application from scratch within half a year,
               allowing the founders to roll it out to market and get funded by
@@ -382,7 +417,7 @@ const ExperienceSection = () => {
       ),
       scopes: (
         <>
-          <ul className="list-disc">
+          <ul className="list-disc list-inside text-xs md:text-base">
             <li className="my-2">
               Designed and developed HR-based web application using Laravel
               framework
@@ -404,7 +439,7 @@ const ExperienceSection = () => {
       endDate: moment('12-31-2019', 'MM-DD-YYYY'),
       scopes: (
         <>
-          <ul className="list-disc">
+          <ul className="list-disc list-inside text-xs md:text-base">
             <li className="my-2">
               Developed and debugged Supply Chain Planning & Optimization
               applications in various industries such as workfoce planning and
@@ -421,7 +456,10 @@ const ExperienceSection = () => {
   ];
 
   return (
-    <div className="bg-gray-800 py-12 px-4 sm:py-16 sm:px-6 lg:px-8">
+    <div
+      ref={reference}
+      className="bg-gray-800 py-12 px-4 sm:py-16 sm:px-6 lg:px-8"
+    >
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
           Experience
@@ -431,32 +469,83 @@ const ExperienceSection = () => {
             {experiences.map((experience, index) => (
               <>
                 <a
-                  className={`cursor-pointer w-full rounded-md flex flex-row my-4 p-3 hover:bg-blue-100 ${
+                  className={`cursor-pointer w-full flex flex-col rounded-md my-4 p-3 hover:bg-blue-100 ${
                     index == selectedExperienceIndex
                       ? 'bg-blue-100'
                       : 'bg-white'
                   }`}
                   onClick={() => setSelectedExperienceIndex(index)}
                 >
-                  <img
-                    className="h-12 w-12 object-contain md:mr-4 mr-2"
-                    src={experience.companyLogo}
-                    alt={experience.company}
-                  />
-                  <div className="flex-grow">
-                    <div className="flex flex-row">
-                      <h4 className="flex-grow text-sm md:text-base font-semibold text-gray-700">
-                        {experience.position}
-                      </h4>
-                      <span className="inline-flex items-center rounded-full bg-blue-200 px-2.5 py-0.5 text-xs font-small text-blue-800">
-                        {experience.startDate.format('MMM YYYY')} -{' '}
-                        {experience.endDate?.format('MMM YYYY') ?? 'Present'}
-                      </span>
+                  <div className="w-full flex flex-row">
+                    <img
+                      className="h-12 w-12 object-contain md:mr-4 mr-2"
+                      src={experience.companyLogo}
+                      alt={experience.company}
+                    />
+                    <div className="flex-grow">
+                      <div className="flex flex-row">
+                        <h4 className="flex-grow text-sm md:text-base font-semibold text-gray-700">
+                          {experience.position}
+                        </h4>
+                        <span className="inline-flex items-center rounded-full bg-blue-200 px-2.5 py-0.5 text-xs font-small text-blue-800">
+                          {experience.startDate.format('MMM YYYY')} -{' '}
+                          {experience.endDate?.format('MMM YYYY') ?? 'Present'}
+                        </span>
+                      </div>
+                      <h5 className="text-xs text-gray-500">
+                        {experience.company}
+                      </h5>
                     </div>
-                    <h5 className="text-xs text-gray-500">
-                      {experience.company}
-                    </h5>
                   </div>
+                  {index === selectedExperienceIndex && (
+                    <div className="block md:hidden">
+                      <div className="relative my-2">
+                        <div
+                          className="absolute inset-0 flex items-center"
+                          aria-hidden="true"
+                        >
+                          <div className="w-full border-t border-gray-300" />
+                        </div>
+                      </div>
+                      <div className="mt-4">
+                        {experiences[selectedExperienceIndex]?.achievements && (
+                          <div className="mb-4">
+                            <h3 className="text-sm font-bold text-gray-600 mb-2">
+                              Achievements
+                            </h3>
+                            {experiences[selectedExperienceIndex]?.achievements}
+                          </div>
+                        )}
+                        {experiences[selectedExperienceIndex]?.scopes && (
+                          <div className="mb-4">
+                            <h3 className="text-sm font-bold text-gray-600 mb-2">
+                              Scopes
+                            </h3>
+                            {experiences[selectedExperienceIndex]?.scopes}
+                          </div>
+                        )}
+                        {experiences[selectedExperienceIndex]?.tools && (
+                          <div className="mb-4">
+                            <h3 className="text-sm font-bold text-gray-600 mb-2">
+                              Technologies
+                            </h3>
+                            {experiences[selectedExperienceIndex]?.tools?.map(
+                              (tool, index) => {
+                                const colorIndex = index % colors.length;
+                                return (
+                                  <span
+                                    className={`inline-flex items-center rounded-full bg-${colors[colorIndex]}-200 mx-1 my-1 px-2.5 py-0.5 text-xs font-small text-${colors[colorIndex]}-800`}
+                                  >
+                                    {tool}
+                                  </span>
+                                );
+                              }
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </a>
               </>
             ))}
@@ -502,6 +591,220 @@ const ExperienceSection = () => {
             )}
           </div>
         </div>
+      </div>
+    </div>
+  );
+};
+
+interface Skill {
+  name: string;
+  percentage: number;
+}
+
+const SkillSection = ({
+  reference,
+}: {
+  reference: React.LegacyRef<HTMLDivElement>;
+}) => {
+  const skills: Skill[] = [
+    {
+      name: 'Golang',
+      percentage: 85,
+    },
+    {
+      name: 'React.js',
+      percentage: 80,
+    },
+    {
+      name: 'Typescript',
+      percentage: 65,
+    },
+    {
+      name: 'Vue.js',
+      percentage: 60,
+    },
+    {
+      name: 'React Native',
+      percentage: 50,
+    },
+    {
+      name: 'Node.js',
+      percentage: 45,
+    },
+    {
+      name: 'PHP (Laravel)',
+      percentage: 45,
+    },
+  ];
+
+  const databases: Skill[] = [
+    {
+      name: 'MySQL',
+      percentage: 85,
+    },
+    {
+      name: 'PostgreSQL',
+      percentage: 85,
+    },
+    {
+      name: 'MongoDB',
+      percentage: 80,
+    },
+    {
+      name: 'Redis',
+      percentage: 70,
+    },
+  ];
+
+  const devops: Skill[] = [
+    {
+      name: 'Docker',
+      percentage: 90,
+    },
+    {
+      name: 'Github Action',
+      percentage: 90,
+    },
+    {
+      name: 'CircleCI',
+      percentage: 80,
+    },
+    {
+      name: 'Kubernetes',
+      percentage: 80,
+    },
+    {
+      name: 'Gitlab CI',
+      percentage: 70,
+    },
+  ];
+
+  const cloud: Skill[] = [
+    {
+      name: 'AliCloud',
+      percentage: 80,
+    },
+    {
+      name: 'AWS',
+      percentage: 70,
+    },
+    {
+      name: 'Google Cloud',
+      percentage: 50,
+    },
+  ];
+
+  return (
+    <div
+      ref={reference}
+      className="bg-gray-100 py-12 px-4 sm:py-16 sm:px-6 lg:px-8"
+    >
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-4xl font-bold text-gray-800 sm:text-5xl lg:text-6xl">
+          Skills
+        </h2>
+        <div className="my-6 bg-white py-3 px-4 rounded-md">
+          <h5 className="mb-2 text-lg text-gray-600">Language / Frameworks</h5>
+          <div className="grid grid-cols-1 md:grid-cols-2 ">
+            {skills.map((skill) => (
+              <div className="grid grid-cols-3">
+                <div className="text-sm col-span-1 text-right text-gray-500 mr-2">
+                  {skill.name}
+                </div>
+                <div className="col-span-2 flex items-center">
+                  <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-200">
+                    <div
+                      className="bg-blue-400 h-2.5 rounded-full"
+                      style={{ width: `${skill.percentage}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="my-6 bg-white py-3 px-4 rounded-md">
+          <h5 className="text-lg text-gray-600">Database</h5>
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            {databases.map((skill) => (
+              <div className="grid grid-cols-3">
+                <div className="text-sm col-span-1 text-right text-gray-500 mr-2">
+                  {skill.name}
+                </div>
+                <div className="col-span-2 flex items-center">
+                  <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-200">
+                    <div
+                      className="bg-blue-400 h-2.5 rounded-full"
+                      style={{ width: `${skill.percentage}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="my-6 bg-white py-3 px-4 rounded-md">
+          <h5 className="text-lg text-gray-600">DevOps</h5>
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            {devops.map((skill) => (
+              <div className="grid grid-cols-3">
+                <div className="text-sm col-span-1 text-right text-gray-500 mr-2">
+                  {skill.name}
+                </div>
+                <div className="col-span-2 flex items-center">
+                  <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-200">
+                    <div
+                      className="bg-blue-400 h-2.5 rounded-full"
+                      style={{ width: `${skill.percentage}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="my-6 bg-white py-3 px-4 rounded-md">
+          <h5 className="text-lg text-gray-600">Cloud Services</h5>
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            {cloud.map((skill) => (
+              <div className="grid grid-cols-3">
+                <div className="text-sm col-span-1 text-right text-gray-500 mr-2">
+                  {skill.name}
+                </div>
+                <div className="col-span-2 flex items-center">
+                  <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-200">
+                    <div
+                      className="bg-blue-400 h-2.5 rounded-full"
+                      style={{ width: `${skill.percentage}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ProjectSection = ({
+  reference,
+}: {
+  reference: React.LegacyRef<HTMLDivElement>;
+}) => {
+  return (
+    <div
+      ref={reference}
+      className="bg-gray-100 py-12 px-4 sm:py-16 sm:px-6 lg:px-8"
+    >
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-4xl font-bold text-gray-800 sm:text-5xl lg:text-6xl">
+          Projects
+        </h2>
       </div>
     </div>
   );
