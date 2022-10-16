@@ -18,6 +18,12 @@ import { ReactSVG } from 'react-svg';
 import Website from './images/internet.svg';
 import Android from './images/android.svg';
 import IOS from './images/apple.svg';
+import Email from './images/email.svg';
+import Phone from './images/phone.svg';
+import LinkedIn from './images/linkedin.svg';
+import Medium from './images/medium.svg';
+import GitHub from './images/github.svg';
+import Heart from './images/heart.svg';
 
 const colors = [
   'gray',
@@ -34,6 +40,7 @@ const App = () => {
   const experienceRef = useRef<HTMLDivElement>(null);
   const skillRef = useRef<HTMLDivElement>(null);
   const projectRef = useRef<HTMLDivElement>(null);
+  const contactRef = useRef<HTMLDivElement>(null);
 
   const onClick = (key: string) => {
     switch (key) {
@@ -55,6 +62,12 @@ const App = () => {
           block: 'start',
         });
         break;
+      case '#contact':
+        contactRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
     }
   };
 
@@ -64,6 +77,8 @@ const App = () => {
       <ExperienceSection reference={experienceRef} />
       <SkillSection reference={skillRef} />
       <ProjectSection reference={projectRef} />
+      <ContactSection reference={contactRef} />
+      <FooterSection />
     </>
   );
 };
@@ -468,7 +483,7 @@ const ExperienceSection = ({
   return (
     <div
       ref={reference}
-      className="bg-gray-800 py-12 px-4 sm:py-16 sm:px-6 lg:px-8"
+      className="bg-gray-700 py-12 px-4 sm:py-16 sm:px-6 lg:px-8"
     >
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
@@ -1042,6 +1057,105 @@ const ProjectSection = ({
               onClose={onCloseProject}
             />
           )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+interface ContactSource {
+  image: string;
+  text: string;
+  href: string;
+}
+
+const ContactSection = ({
+  reference,
+}: {
+  reference: React.LegacyRef<HTMLDivElement>;
+}) => {
+  const contacts: ContactSource[] = [
+    {
+      image: Email,
+      text: 'wilson.tanwm@gmail.com',
+      href: 'mailto:wilson.tanwm@gmail.com',
+    },
+    {
+      image: Phone,
+      text: '+6016-981 2683',
+      href: 'tel:+60169812683',
+    },
+    {
+      image: LinkedIn,
+      text: 'Wilson Wei Ming Tan (LinkedIn)',
+      href: 'https://www.linkedin.com/in/wilson-wei-ming-tan-1121697b/',
+    },
+    {
+      image: GitHub,
+      text: 'wilsontwm (GitHub)',
+      href: 'https://github.com/wilsontwm',
+    },
+    {
+      image: Medium,
+      text: 'Wilson Tan (Medium)',
+      href: 'https://wilson-tech.medium.com/',
+    },
+  ];
+
+  return (
+    <div
+      ref={reference}
+      className="bg-gray-700 py-12 px-4 sm:py-16 sm:px-6 lg:px-8"
+    >
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-10">
+        <div className="text-white">
+          <h2 className="text-4xl font-bold sm:text-5xl lg:text-6xl">
+            Get In Touch
+          </h2>
+          <p className="mt-6 max-w-3xl text-lg text-gray-400">
+            I'm always available for a chat, don't hesitate to drop me a message
+            and I'll get back to you soon!
+          </p>
+        </div>
+        <div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-4">
+            {contacts.map((contact) => (
+              <a
+                className="cursor-pointer w-full rounded-md my-2 py-1 px-2 bg-white hover:bg-blue-100"
+                href={contact.href}
+                target="_blank"
+              >
+                <div className="w-full flex flex-row py-2">
+                  <img
+                    className="h-8 w-8 object-contain mr-4"
+                    src={contact.image}
+                    alt={contact.text}
+                  />
+                  <div className="flex items-center flex-grow">
+                    <h4 className="text-sm text-gray-600 items-center">
+                      {contact.text}
+                    </h4>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const FooterSection = () => {
+  return (
+    <div className="bg-gray-700 py-2">
+      <div className="max-w-7xl mx-auto text-center text-gray-200 text-xs">
+        <div className="flex justify-center items-center">
+          Made with{' '}
+          <span className="mx-1">
+            <ReactSVG src={Heart} className="w-3 h-3" />
+          </span>{' '}
+          by Wilson Tan
         </div>
       </div>
     </div>
