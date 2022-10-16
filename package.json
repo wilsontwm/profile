@@ -13,10 +13,14 @@
     "@types/node": "^16.11.65",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
+    "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-multi-carousel": "^2.8.2",
     "react-scripts": "5.0.1",
+    "react-simple-image-viewer": "^1.2.2",
+    "react-svg": "^15.1.10",
     "typescript": "^4.8.4",
     "web-vitals": "^2.1.4"
   },
@@ -47,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.186",
     "autoprefixer": "^10.4.12",
     "gh-pages": "^4.0.0",
     "postcss": "^8.4.18",

@@ -1,13 +1,23 @@
-import React, { Fragment, useState, useRef } from 'react';
+import React, { Fragment, useState, useRef, useCallback } from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import moment, { Moment } from 'moment';
+import _ from 'lodash';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import ImageViewer from 'react-simple-image-viewer';
 import ProfilePicture from './images/profile.jpg';
 import Xendit from './images/xendit.png';
 import RevenueMonster from './images/revenuemonster.png';
 import Octafa from './images/octafa.png';
 import Quintiq from './images/quintiq.png';
 import Traitquest from './images/traitquest.png';
+import MyRoadtaxStore1 from './images/myroadtax-1.png';
+import MyRoadtaxStore2 from './images/myroadtax-2.png';
+import { ReactSVG } from 'react-svg';
+import Website from './images/internet.svg';
+import Android from './images/android.svg';
+import IOS from './images/apple.svg';
 
 const colors = [
   'gray',
@@ -791,20 +801,248 @@ const SkillSection = ({
   );
 };
 
+interface Project {
+  name: string;
+  startDate: Moment;
+  endDate?: Moment;
+  description: string;
+  shortDescription: string;
+  images: string[];
+  technologies: string[];
+  link?: string;
+  androidLink?: string;
+  iosLink?: string;
+}
+
 const ProjectSection = ({
   reference,
 }: {
   reference: React.LegacyRef<HTMLDivElement>;
 }) => {
+  const [selectedProjectIndex, setSelectedProjectIndex] = useState<
+    number | null
+  >(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5,
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+    },
+  };
+
+  const projects: Project[] = [
+    {
+      name: 'Carlink',
+      startDate: moment('08-01-2022', 'MM-DD-YYYY'),
+      shortDescription: 'Vehicle inspection web and mobile application',
+      description:
+        'Vehicle inspection mobile app and web application that enables Carlink second-hand car dealer to manage the vehicles and carry out vehicle inspection',
+      images: [
+        'https://play-lh.googleusercontent.com/6HWu6gtVV1kBQ6TZHXBpDoPV98SbAwWggQAqLVQ7WLS5PcHGIndQ4mw9jAaP_XsRuWx_=w2560-h1440-rw',
+        'https://play-lh.googleusercontent.com/dymPBZJ21fAiOG08o-lk3xcAXcKieTGbbyi5eImIL9OXDI97Ejuoavm29ygTdUo8X5M=w2560-h1440-rw',
+      ],
+      technologies: ['React Native', 'React.js', 'Typescript', 'Next.js'],
+      link: 'https://carlink.my',
+      androidLink:
+        'https://play.google.com/store/apps/details?id=com.carlinkapp',
+    },
+    {
+      name: 'My Roadtax Store',
+      startDate: moment('05-01-2021', 'MM-DD-YYYY'),
+      shortDescription: 'Runner management system for roadtax renewal',
+      description:
+        'Runner management system that allows vendor to allocate runners for orders received from Touch N Go, Shopee, Allianz Insurance etc',
+      images: [MyRoadtaxStore1, MyRoadtaxStore2],
+      technologies: ['Golang', 'Docker', 'AliCloud'],
+      link: 'https://renew.myroadtax.store/',
+    },
+    {
+      name: 'Financial News Web Crawler',
+      startDate: moment('05-01-2020', 'MM-DD-YYYY'),
+      endDate: moment('05-01-2020', 'MM-DD-YYYY'),
+      shortDescription: 'Malaysia Finance News Aggregator',
+      description:
+        'A web crawler site for local and international financial news',
+      images: ['https://miro.medium.com/max/1400/1*1hllnQYLfjstxSEp3fTayw.png'],
+      technologies: ['Golang', 'Vue.js'],
+    },
+    {
+      name: 'Real Time Chat',
+      startDate: moment('05-01-2020', 'MM-DD-YYYY'),
+      endDate: moment('05-01-2020', 'MM-DD-YYYY'),
+      shortDescription: 'Real time chatting application',
+      description:
+        'A real-time chat that allows users to chat in private or in group',
+      images: ['https://wilson-tan.web.app/img/realtimechat1.83c9ecb6.png'],
+      link: 'https://real-time-chat-wt.web.app/',
+      technologies: ['Vue.js', 'Firebase'],
+    },
+    {
+      name: 'www.mskin.com.my',
+      startDate: moment('04-01-2018', 'MM-DD-YYYY'),
+      endDate: moment('08-01-2018', 'MM-DD-YYYY'),
+      shortDescription: 'Product landing page on bio-cellulose mask',
+      description:
+        'A landing page that promotes bio-cellulose mask together with its benefits. Comes with contact form to allow users to send enquiries.',
+      images: [
+        'https://wilson-tan.web.app/img/mskin1.d95742a2.png',
+        'https://wilson-tan.web.app/img/mskin2.4a015f35.png',
+        'https://wilson-tan.web.app/img/mskin3.fe4890dc.png',
+      ],
+      link: 'https://meridic.herokuapp.com/',
+      technologies: ['PHP'],
+    },
+    {
+      name: 'bookcar.asia',
+      startDate: moment('08-01-2017', 'MM-DD-YYYY'),
+      endDate: moment('08-01-2017', 'MM-DD-YYYY'),
+      shortDescription: 'Interest registration page for ride-hailing platform',
+      description:
+        'An interest registration page for ride-hailing platform in Malaysia that offers flexibility to drivers to drive whenever they want',
+      images: [
+        'https://wilson-tan.web.app/img/bookcar1.4593cc13.jpg',
+        'https://wilson-tan.web.app/img/bookcar2.81c66734.png',
+      ],
+      link: 'https://powerful-peak-79558.herokuapp.com/',
+      technologies: ['PHP', 'Laravel'],
+    },
+    {
+      name: '3 Blocks',
+      startDate: moment('05-01-2017', 'MM-DD-YYYY'),
+      endDate: moment('06-01-2017', 'MM-DD-YYYY'),
+      shortDescription: 'Maths puzzle Android game',
+      description:
+        'A maths puzzle game app which users swap tiles like Candy Crush while performing mathematical calculation at the same time.',
+      images: ['https://wilson-tan.web.app/img/3blocks1.d560e9cb.png'],
+      technologies: ['C#', 'Unity'],
+    },
+  ];
+
+  const onClickProject = useCallback((index: number) => {
+    setSelectedProjectIndex(index);
+    setIsModalOpen(true);
+  }, []);
+
+  const onCloseProject = useCallback(() => {
+    setSelectedProjectIndex(null);
+    setIsModalOpen(false);
+  }, []);
+
   return (
     <div
       ref={reference}
       className="bg-gray-100 py-12 px-4 sm:py-16 sm:px-6 lg:px-8"
     >
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-gray-800 sm:text-5xl lg:text-6xl">
-          Projects
-        </h2>
+      <div className="max-w-7xl mx-auto grid grid-cols-1 gap-12 lg:grid-cols-3 lg:gap-8">
+        <div>
+          <h2 className="text-4xl font-bold text-gray-800 sm:text-5xl lg:text-6xl">
+            Projects
+          </h2>
+          <div className="text-gray-500 my-4">
+            <p className="mb-2">
+              These are some of the side / hobby projects I carry out during my
+              free time.
+            </p>
+            <p className="mb-2">
+              Like what you see? Contact me for more information.
+            </p>
+          </div>
+        </div>
+        <div className="lg:col-span-2">
+          <Carousel
+            responsive={responsive}
+            swipeable={true}
+            arrows={!isModalOpen}
+          >
+            {projects.map((project, index) => (
+              <a
+                className="cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClickProject(index);
+                }}
+              >
+                <div className="bg-white mx-2 rounded-md h-full">
+                  <div className="aspect-w-3 aspect-h-2">
+                    <img
+                      className="mx-auto rounded-lg h-48 object-cover shadow-lg"
+                      src={project.images[0]}
+                      alt=""
+                    />
+                  </div>
+                  <div className="py-3 px-4">
+                    <div className="space-y-1 font-medium leading-6">
+                      <h3 className="text-base">{project.name}</h3>
+                      <p className="text-blue-600 text-xs">
+                        {project.startDate.format('MMM YYYY')} -{' '}
+                        {project.endDate?.format('MMM YYYY') ?? 'Present'}
+                      </p>
+                    </div>
+
+                    <div className="text-gray-400 text-xs">
+                      {project.shortDescription}
+                    </div>
+
+                    <div className="flex flex-row mt-2">
+                      {!_.isEmpty(project.link) && (
+                        <a
+                          className="mr-1"
+                          href={project.link}
+                          target="_blank"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <ReactSVG src={Website} className="h-4 w-4" />
+                        </a>
+                      )}
+                      {!_.isEmpty(project.androidLink) && (
+                        <a
+                          className="mr-1"
+                          href={project.androidLink}
+                          target="_blank"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <ReactSVG src={Android} className="h-4 w-4" />
+                        </a>
+                      )}
+                      {!_.isEmpty(project.iosLink) && (
+                        <a
+                          className="mr-1"
+                          href={project.iosLink}
+                          target="_blank"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <ReactSVG src={IOS} className="h-4 w-4" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </Carousel>
+          {isModalOpen && (
+            <ImageViewer
+              src={projects[selectedProjectIndex ?? 0].images}
+              disableScroll={false}
+              closeOnClickOutside={true}
+              onClose={onCloseProject}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
