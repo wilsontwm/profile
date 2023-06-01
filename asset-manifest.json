@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/profile/static/css/main.ecbd87de.css",
-    "main.js": "/profile/static/js/main.98a3fa7d.js",
+    "main.js": "/profile/static/js/main.20e85e2d.js",
     "static/js/787.50a07152.chunk.js": "/profile/static/js/787.50a07152.chunk.js",
     "static/media/myroadtax-2.png": "/profile/static/media/myroadtax-2.84a88b91796ce803354f.png",
     "static/media/traitquest.png": "/profile/static/media/traitquest.f034c031306faec04188.png",
@@ -24,11 +24,11 @@
     "index.html": "/profile/index.html",
     "static/media/medium.svg": "/profile/static/media/medium.84479c28dabaae629a0a4f0a588e76b4.svg",
     "main.ecbd87de.css.map": "/profile/static/css/main.ecbd87de.css.map",
-    "main.98a3fa7d.js.map": "/profile/static/js/main.98a3fa7d.js.map",
+    "main.20e85e2d.js.map": "/profile/static/js/main.20e85e2d.js.map",
     "787.50a07152.chunk.js.map": "/profile/static/js/787.50a07152.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ecbd87de.css",
-    "static/js/main.98a3fa7d.js"
+    "static/js/main.20e85e2d.js"
   ]
 }
