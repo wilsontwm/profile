@@ -315,7 +315,7 @@ const ExperienceSection = ({
           <ul className="list-disc list-inside text-xs md:text-base">
             <li className="my-2">
               Designed, developed, debugged and tested web applications
-              (frontend & backend)
+              (frontend & backend) as well as mobile applications
             </li>
             <li className="my-2">
               Implemented CI/CD to automate compilation, testing and deployment
@@ -337,6 +337,8 @@ const ExperienceSection = ({
         'AWS',
         'RabbitMQ',
         'Redis',
+        'React Native',
+        'Flutter',
         'Github Action',
       ],
     },
@@ -863,6 +865,7 @@ const ProjectSection = ({
     {
       name: 'Carlink',
       startDate: moment('08-01-2022', 'MM-DD-YYYY'),
+      endDate: moment('01-01-2023', 'MM-DD-YYYY'),
       shortDescription: 'Vehicle inspection web and mobile application',
       description:
         'Vehicle inspection mobile app and web application that enables Carlink second-hand car dealer to manage the vehicles and carry out vehicle inspection',
