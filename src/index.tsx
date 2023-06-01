@@ -8,11 +8,11 @@ import Autosistant from './pages/autosistant';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/profile',
     element: <Root />,
   },
   {
-    path: '/autosistant',
+    path: '/profile/autosistant',
     element: <Autosistant />,
   },
 ]);
