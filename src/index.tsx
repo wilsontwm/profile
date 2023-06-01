@@ -1,18 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Root from './pages/root';
 import Autosistant from './pages/autosistant';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
-    path: '/profile',
+    path: '/',
     element: <Root />,
   },
   {
-    path: '/profile/autosistant',
+    path: '/autosistant',
     element: <Autosistant />,
   },
 ]);
