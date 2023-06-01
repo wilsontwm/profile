@@ -6,24 +6,24 @@ import _ from 'lodash';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import ImageViewer from 'react-simple-image-viewer';
-import ProfilePicture from './images/profile.jpg';
-import Xendit from './images/xendit.png';
-import RevenueMonster from './images/revenuemonster.png';
-import Octafa from './images/octafa.png';
-import Quintiq from './images/quintiq.png';
-import Traitquest from './images/traitquest.png';
-import MyRoadtaxStore1 from './images/myroadtax-1.png';
-import MyRoadtaxStore2 from './images/myroadtax-2.png';
+import ProfilePicture from '../images/profile.jpg';
+import Xendit from '../images/xendit.png';
+import RevenueMonster from '../images/revenuemonster.png';
+import Octafa from '../images/octafa.png';
+import Quintiq from '../images/quintiq.png';
+import Traitquest from '../images/traitquest.png';
+import MyRoadtaxStore1 from '../images/myroadtax-1.png';
+import MyRoadtaxStore2 from '../images/myroadtax-2.png';
 import { ReactSVG } from 'react-svg';
-import Website from './images/internet.svg';
-import Android from './images/android.svg';
-import IOS from './images/apple.svg';
-import Email from './images/email.svg';
-import Phone from './images/phone.svg';
-import LinkedIn from './images/linkedin.svg';
-import Medium from './images/medium.svg';
-import GitHub from './images/github.svg';
-import Heart from './images/heart.svg';
+import Website from '../images/internet.svg';
+import Android from '../images/android.svg';
+import IOS from '../images/apple.svg';
+import Email from '../images/email.svg';
+import Phone from '../images/phone.svg';
+import LinkedIn from '../images/linkedin.svg';
+import Medium from '../images/medium.svg';
+import GitHub from '../images/github.svg';
+import Heart from '../images/heart.svg';
 
 const colors = [
   'gray',
@@ -36,7 +36,7 @@ const colors = [
   'pink',
 ];
 
-const App = () => {
+const Root = () => {
   const experienceRef = useRef<HTMLDivElement>(null);
   const skillRef = useRef<HTMLDivElement>(null);
   const projectRef = useRef<HTMLDivElement>(null);
@@ -1165,4 +1165,4 @@ const FooterSection = () => {
   );
 };
 
-export default App;
+export default Root;
