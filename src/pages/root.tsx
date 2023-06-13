@@ -713,7 +713,7 @@ const SkillSection = ({
     },
     {
       name: 'AWS',
-      percentage: 70,
+      percentage: 80,
     },
     {
       name: 'Google Cloud',
